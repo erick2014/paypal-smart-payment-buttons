@@ -93,8 +93,11 @@ export function getButtonMiddleware({
             const clientPromise = getSmartPaymentButtonsClientScript({ debug, logBuffer, cache, useLocal, locationInformation });
             const renderPromise = getPayPalSmartPaymentButtonsRenderScript({ logBuffer, cache, useLocal, locationInformation, sdkLocationInformation });
 
-            const isCardFieldsExperimentEnabledPromise = merchantIDPromise.then(merchantID =>
-                getInlineGuestExperiment(req, { merchantID: merchantID[0], locale, buttonSessionID, buyerCountry }));
+            const isCardFieldsExperimentEnabledPromise = promiseTimeout(
+                merchantIDPromise.then(merchantID =>
+                    getInlineGuestExperiment(req, { merchantID: merchantID[0], locale, buttonSessionID, buyerCountry })),
+                EXPERIMENT_TIMEOUT
+            ).catch(() => false);
 
             const fundingEligibilityPromise = resolveFundingEligibility(req, gqlBatch, {
                 logger, clientID, merchantID: sdkMerchantID, buttonSessionID, currency, intent, commit, vault,
@@ -107,15 +110,11 @@ export function getButtonMiddleware({
             }).catch(noop);
 
             const personalizationEnabled = getPersonalizationEnabled(req);
-            const personalizationPromise = promiseTimeout(
-                resolvePersonalization(req, gqlBatch, {
-                    logger, clientID,  buyerCountry, locale, buttonSessionID, currency, intent, commit,
-                    vault, label, period, tagline, personalizationEnabled, renderedButtons
-                }),
-                EXPERIMENT_TIMEOUT
-            ).catch(() => {
-                return {};
+            const personalizationPromise = resolvePersonalization(req, gqlBatch, {
+                logger, clientID,  buyerCountry, locale, buttonSessionID, currency, intent, commit,
+                vault, label, period, tagline, personalizationEnabled, renderedButtons
             });
+               
 
             gqlBatch.flush();
 
