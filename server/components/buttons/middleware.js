@@ -93,11 +93,8 @@ export function getButtonMiddleware({
             const clientPromise = getSmartPaymentButtonsClientScript({ debug, logBuffer, cache, useLocal, locationInformation });
             const renderPromise = getPayPalSmartPaymentButtonsRenderScript({ logBuffer, cache, useLocal, locationInformation, sdkLocationInformation });
 
-            const isCardFieldsExperimentEnabledPromise = promiseTimeout(
-                merchantIDPromise.then(merchantID =>
-                    getInlineGuestExperiment(req, { merchantID: merchantID[0], locale, buttonSessionID, buyerCountry })),
-                EXPERIMENT_TIMEOUT
-            ).catch(() => false);
+            const isCardFieldsExperimentEnabledPromise = merchantIDPromise.then(merchantID =>
+                getInlineGuestExperiment(req, { merchantID: merchantID[0], locale, buttonSessionID, buyerCountry }));
 
             const fundingEligibilityPromise = resolveFundingEligibility(req, gqlBatch, {
                 logger, clientID, merchantID: sdkMerchantID, buttonSessionID, currency, intent, commit, vault,
