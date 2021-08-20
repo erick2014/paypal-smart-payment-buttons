@@ -114,7 +114,6 @@ export function getButtonMiddleware({
                 logger, clientID, buyerCountry, locale, buttonSessionID, currency, intent, commit,
                 vault, label, period, tagline, personalizationEnabled, renderedButtons
             });
-               
 
             gqlBatch.flush();
 
