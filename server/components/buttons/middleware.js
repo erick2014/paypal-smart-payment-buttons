@@ -111,7 +111,7 @@ export function getButtonMiddleware({
 
             const personalizationEnabled = getPersonalizationEnabled(req);
             const personalizationPromise = resolvePersonalization(req, gqlBatch, {
-                logger, clientID,  buyerCountry, merchantID: undefined, locale, buttonSessionID, currency, intent, commit,
+                logger, clientID,  buyerCountry, merchantID: [], locale, buttonSessionID, currency, intent, commit,
                 vault, label, period, tagline, personalizationEnabled, renderedButtons
             });
                
