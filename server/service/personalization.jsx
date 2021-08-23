@@ -1,7 +1,7 @@
 /* @flow */
 /** @jsx node */
 
-import { COUNTRY, CURRENCY, INTENT, COMMIT, VAULT, FUNDING } from '@paypal/sdk-constants';
+import { COUNTRY, CURRENCY, INTENT, COMMIT, VAULT, FUNDING, FPTI_KEY } from '@paypal/sdk-constants';
 import type { ComponentFunctionType } from 'jsx-pragmatic/src';
 import { node } from 'jsx-pragmatic';
 import { LOGO_COLOR, PPLogo, PayPalLogo } from '@paypal/sdk-logos';
@@ -9,6 +9,14 @@ import { LOGO_COLOR, PPLogo, PayPalLogo } from '@paypal/sdk-logos';
 import { PERSONALIZATION_TIMEOUT } from '../config';
 import { placeholderToJSX, type GraphQLBatchCall } from '../lib';
 import type { ExpressRequest, LocaleType, LoggerType } from '../types';
+
+
+export const FPTI_STATE = {
+    BUTTON:   ('smart_button' : 'smart_button'),
+    WALLET:   ('smart_wallet' : 'smart_wallet'),
+    PXP:      ('PXP_CHECK' : 'PXP_CHECK')
+};
+
 
 type PersonalizationComponentProps = {|
    logoColor : $Values<typeof LOGO_COLOR>,
@@ -90,7 +98,7 @@ const PERSONALIZATION_QUERY = `
 `;
 
 export type PersonalizationOptions = {|
-    logger : LoggerType,
+    logger : any,
     clientID : string,
     locale : LocaleType,
     buyerCountry : $Values<typeof COUNTRY>,
@@ -172,6 +180,12 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
         return personalization;
 
     } catch (err) {
+        if (err.toString().includes('Timed out after')) {
+            logger.track(req, {
+                [FPTI_KEY.STATE]:      FPTI_STATE.BUTTON,
+                [FPTI_KEY.TRANSITION]: 'personalization_promise_timeout'
+            }, {});
+        }
         logger.error(req, 'personalization_error_fallback', { err: err.stack ? err.stack : err.toString() });
         return getDefaultPersonalization();
     }
