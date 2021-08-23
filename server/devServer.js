@@ -33,8 +33,7 @@ const logger = {
     debug: noop,
     info:  noop,
     warn:  noop,
-    error: noop,
-    track: noop
+    error: noop
 };
 
 const graphQL : GraphQL = (req, payload) => {
