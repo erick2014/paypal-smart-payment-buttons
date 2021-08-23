@@ -92,7 +92,7 @@ const PERSONALIZATION_QUERY = `
 `;
 
 export type PersonalizationOptions = {|
-    logger : any,
+    logger : LoggerType,
     clientID : string,
     locale : LocaleType,
     buyerCountry : $Values<typeof COUNTRY>,
