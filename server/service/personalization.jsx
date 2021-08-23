@@ -10,13 +10,7 @@ import { PERSONALIZATION_TIMEOUT } from '../config';
 import { placeholderToJSX, type GraphQLBatchCall } from '../lib';
 import type { ExpressRequest, LocaleType, LoggerType } from '../types';
 
-
-export const FPTI_STATE = {
-    BUTTON:   ('smart_button' : 'smart_button'),
-    WALLET:   ('smart_wallet' : 'smart_wallet'),
-    PXP:      ('PXP_CHECK' : 'PXP_CHECK')
-};
-
+import { FPTI_STATE } from '../../src/constants';
 
 type PersonalizationComponentProps = {|
    logoColor : $Values<typeof LOGO_COLOR>,
@@ -164,7 +158,7 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
                 clientID, locale, buyerCountry, currency, intent, commit, vault, ip, cookies, userAgent,
                 buttonSessionID, label, period, taglineEnabled, renderedButtons
             },
-            timeout: PERSONALIZATION_TIMEOUT
+            timeout: 1
         });
 
         const personalization = result.checkoutCustomization;
