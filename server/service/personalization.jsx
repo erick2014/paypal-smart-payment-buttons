@@ -9,7 +9,6 @@ import { LOGO_COLOR, PPLogo, PayPalLogo } from '@paypal/sdk-logos';
 import { PERSONALIZATION_TIMEOUT } from '../config';
 import { placeholderToJSX, type GraphQLBatchCall } from '../lib';
 import type { ExpressRequest, LocaleType, LoggerType } from '../types';
-
 import { FPTI_STATE } from '../../src/constants';
 
 type PersonalizationComponentProps = {|

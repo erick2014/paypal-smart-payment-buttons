@@ -22,7 +22,8 @@ export type LoggerType = {|
     debug : (req : ExpressRequest, event : string, payload : ?LoggerPayload) => void,
     info : (req : ExpressRequest, event : string, payload : ?LoggerPayload) => void,
     warn : (req : ExpressRequest, event : string, payload : ?LoggerPayload) => void,
-    error : (req : ExpressRequest, event : string, payload : ?LoggerPayload) => void
+    error : (req : ExpressRequest, event : string, payload : ?LoggerPayload) => void,
+    track : (req : ExpressRequest, event : Object, payload : ?LoggerPayload) => void
 |};
 
 export type CacheType = {|
