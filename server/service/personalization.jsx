@@ -158,7 +158,7 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
                 clientID, locale, buyerCountry, currency, intent, commit, vault, ip, cookies, userAgent,
                 buttonSessionID, label, period, taglineEnabled, renderedButtons
             },
-            timeout: 1
+            timeout: PERSONALIZATION_TIMEOUT
         });
 
         const personalization = result.checkoutCustomization;
