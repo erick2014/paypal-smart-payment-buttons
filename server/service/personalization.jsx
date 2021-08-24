@@ -175,8 +175,11 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
     } catch (err) {
         if (err.message && err.message.includes(TIMEOUT_ERROR_MESSAGE)) {
             logger.track(req, {
-                [FPTI_KEY.STATE]:      FPTI_STATE.BUTTON,
-                [FPTI_KEY.TRANSITION]: 'personalization_promise_timeout'
+                [FPTI_KEY.STATE]:        FPTI_STATE.BUTTON,
+                [FPTI_KEY.TRANSITION]:   'personalization_promise_timeout',
+                [FPTI_KEY.CONTEXT_ID]:   buttonSessionID,
+                [FPTI_KEY.CONTEXT_TYPE]:    buttonSessionID,
+                [FPTI_KEY.FEED]:         'payments_sdk'
             }, {});
         }
         logger.error(req, 'personalization_error_fallback', { err: err.stack ? err.stack : err.toString() });
