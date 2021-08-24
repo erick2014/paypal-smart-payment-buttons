@@ -173,7 +173,7 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
         return personalization;
 
     } catch (err) {
-        if (err.toString().includes(TIMEOUT_ERROR_MESSAGE(PERSONALIZATION_TIMEOUT))) {
+        if (err.toString().includes(TIMEOUT_ERROR_MESSAGE)) {
             logger.track(req, {
                 [FPTI_KEY.STATE]:      FPTI_STATE.BUTTON,
                 [FPTI_KEY.TRANSITION]: 'personalization_promise_timeout'

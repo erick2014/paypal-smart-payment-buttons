@@ -238,7 +238,7 @@ export function copy<T>(obj : T) : T {
 export async function promiseTimeout<T>(promise : Promise<T>, time : number) : Promise<T> {
     return await new Promise((resolve, reject) => {
         const timer = setTimeout(() => {
-            reject(new Error(TIMEOUT_ERROR_MESSAGE(time)));
+            reject(new Error(`${ TIMEOUT_ERROR_MESSAGE } ${ time }ms`));
         }, time);
 
         const res = (val) => {

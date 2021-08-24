@@ -36,4 +36,4 @@ export const AUTH_ERROR_CODE = {
     INVALID_CLIENT: 'invalid_client'
 };
 
-export const TIMEOUT_ERROR_MESSAGE = (time : number) : string => `Timed out after ${ time }ms`;
+export const TIMEOUT_ERROR_MESSAGE = `Timed out after`;
