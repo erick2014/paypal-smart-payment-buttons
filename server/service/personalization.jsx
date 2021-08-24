@@ -178,7 +178,7 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
                 [FPTI_KEY.STATE]:        FPTI_STATE.BUTTON,
                 [FPTI_KEY.TRANSITION]:   'personalization_promise_timeout',
                 [FPTI_KEY.CONTEXT_ID]:   buttonSessionID,
-                [FPTI_KEY.CONTEXT_TYPE]:    buttonSessionID,
+                [FPTI_KEY.CONTEXT_TYPE]:    'button_session_id',
                 [FPTI_KEY.FEED]:         'payments_sdk'
             }, {});
         }
