@@ -6,7 +6,7 @@ import type { ComponentFunctionType } from 'jsx-pragmatic/src';
 import { node } from 'jsx-pragmatic';
 import { LOGO_COLOR, PPLogo, PayPalLogo } from '@paypal/sdk-logos';
 
-import { PERSONALIZATION_TIMEOUT } from '../config';
+import { PERSONALIZATION_TIMEOUT, TIMEOUT_ERROR_MESSAGE } from '../config';
 import { placeholderToJSX, type GraphQLBatchCall } from '../lib';
 import type { ExpressRequest, LocaleType, LoggerType } from '../types';
 import { FPTI_STATE } from '../../src/constants';
@@ -173,7 +173,7 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
         return personalization;
 
     } catch (err) {
-        if (err.toString().includes('Timed out after')) {
+        if (err.toString().includes(TIMEOUT_ERROR_MESSAGE(PERSONALIZATION_TIMEOUT))) {
             logger.track(req, {
                 [FPTI_KEY.STATE]:      FPTI_STATE.BUTTON,
                 [FPTI_KEY.TRANSITION]: 'personalization_promise_timeout'
