@@ -101,11 +101,11 @@ export function getButtonMiddleware({
             ).catch((err) => {
                 if (err.message && err.message.includes(TIMEOUT_ERROR_MESSAGE)) {
                     logger.track(req, {
-                        [FPTI_KEY.STATE]:        FPTI_STATE.BUTTON,
-                        [FPTI_KEY.TRANSITION]:   'is_card_fields_experiment_enabled_promise_timeout',
-                        [FPTI_KEY.CONTEXT_ID]:   buttonSessionID,
+                        [FPTI_KEY.STATE]:           FPTI_STATE.BUTTON,
+                        [FPTI_KEY.TRANSITION]:      'is_card_fields_experiment_enabled_promise_timeout',
+                        [FPTI_KEY.CONTEXT_ID]:      buttonSessionID,
                         [FPTI_KEY.CONTEXT_TYPE]:    'button_session_id',
-                        [FPTI_KEY.FEED]:         'payments_sdk'
+                        [FPTI_KEY.FEED]:            'payments_sdk'
                     }, {});
                 }
             });

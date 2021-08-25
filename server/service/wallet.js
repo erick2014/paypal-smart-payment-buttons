@@ -260,11 +260,11 @@ export async function resolveWallet(req : ExpressRequest, gqlBatch : GraphQLBatc
         } catch (err) {
             if (err.message && err.message.includes(TIMEOUT_ERROR_MESSAGE)) {
                 logger.track(req, {
-                    [FPTI_KEY.STATE]:        FPTI_STATE.BUTTON,
-                    [FPTI_KEY.TRANSITION]:   'wallet_promise_timeout',
-                    [FPTI_KEY.CONTEXT_ID]:   buttonSessionID,
+                    [FPTI_KEY.STATE]:           FPTI_STATE.BUTTON,
+                    [FPTI_KEY.TRANSITION]:      'wallet_promise_timeout',
+                    [FPTI_KEY.CONTEXT_ID]:      buttonSessionID,
                     [FPTI_KEY.CONTEXT_TYPE]:    'button_session_id',
-                    [FPTI_KEY.FEED]:         'payments_sdk'
+                    [FPTI_KEY.FEED]:            'payments_sdk'
                 }, {});
             }
             logger.error(req, 'smart_wallet_error_fallback', { err: err.stack ? err.stack : err.toString() });
@@ -364,11 +364,11 @@ export async function resolveWallet(req : ExpressRequest, gqlBatch : GraphQLBatc
     } catch (err) {
         if (err.message && err.message.includes(TIMEOUT_ERROR_MESSAGE)) {
             logger.track(req, {
-                [FPTI_KEY.STATE]:        FPTI_STATE.BUTTON,
-                [FPTI_KEY.TRANSITION]:   'wallet_promise_timeout',
-                [FPTI_KEY.CONTEXT_ID]:   buttonSessionID,
+                [FPTI_KEY.STATE]:           FPTI_STATE.BUTTON,
+                [FPTI_KEY.TRANSITION]:      'wallet_promise_timeout',
+                [FPTI_KEY.CONTEXT_ID]:      buttonSessionID,
                 [FPTI_KEY.CONTEXT_TYPE]:    'button_session_id',
-                [FPTI_KEY.FEED]:         'payments_sdk'
+                [FPTI_KEY.FEED]:            'payments_sdk'
             }, {});
         }
         logger.error(req, 'wallet_error_fallback', { err: err.stack ? err.stack : err.toString() });
