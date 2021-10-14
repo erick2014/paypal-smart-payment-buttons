@@ -9,7 +9,7 @@ import { LOGO_COLOR, PPLogo, PayPalLogo } from '@paypal/sdk-logos';
 import { PERSONALIZATION_TIMEOUT } from '../config';
 import { placeholderToJSX, type GraphQLBatchCall } from '../lib';
 import type { ExpressRequest, LocaleType, LoggerType } from '../types';
-import { getButtonAnimation } from './animations';
+import { getButtonAnimation } from '../components/buttons/animations';
 
 type PersonalizationComponentProps = {|
    logoColor : $Values<typeof LOGO_COLOR>,
@@ -142,7 +142,7 @@ function contentToJSX(content : string) : ComponentFunctionType<PersonalizationC
 export async function resolvePersonalization(req : ExpressRequest, gqlBatch : GraphQLBatchCall, personalizationOptions : PersonalizationOptions) : Promise<Personalization> {
     let { logger, clientID, locale, buyerCountry, buttonSessionID, currency, intent, commit,
         vault, label, period, tagline, personalizationEnabled, renderedButtons } = personalizationOptions;
-    
+    // @TODO  find a way to receive the button animation configuration in order to build the animation we need
     const buttonAnimation = getButtonAnimation({  id: '1', text: 'Pay now or pay later' });
     if (!personalizationEnabled) {
         const personalization = getDefaultPersonalization();
