@@ -10,7 +10,7 @@ export const ANIMATION = {
     CONTAINER:       ('divide-logo-animation' : 'divide-logo-animation')
 };
 
-export function labelForDivideLogoAnimation(animationLabelText : string) : ChildType {
+export function createComponent(animationLabelText : string) : ChildType {
     return (
         <Fragment>
             <div class={ ANIMATION.LABEL_CONTAINER }> <span class="test">{ animationLabelText }</span></div>
@@ -146,6 +146,6 @@ export function setupDivideLogoAnimation (animationLabelText : string) : ButtonA
     return {
         animationContainerClass: ANIMATION.CONTAINER,
         animationScript,
-        animationComponent:      (labelForDivideLogoAnimation(animationLabelText))
+        animationComponent:      (createComponent(animationLabelText))
     };
 }
