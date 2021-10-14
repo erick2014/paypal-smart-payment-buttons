@@ -19,13 +19,11 @@ type PageProps = {|
 |};
 
 function Page({ cspNonce, props } : PageProps) : mixed {
-    const {
-        createOrder, onApprove, intent, branded, vault,
-        style, type, onChange, export: xport
-    } = props;
+    const { facilitatorAccessToken, style, placeholder, type, onChange, export: xport } = props;
 
     const [ fieldValue, setFieldValue ] = useState();
     const [ fieldValid, setFieldValid ] = useState(false);
+    const [ fieldErrors, setFieldErrors ] = useState([]);
 
     const getFieldValue = () => {
         return fieldValue;
@@ -37,9 +35,10 @@ function Page({ cspNonce, props } : PageProps) : mixed {
 
     useEffect(() => {
         onChange({
-            valid: fieldValid
+            valid:    fieldValid,
+            errors: fieldErrors
         });
-    }, [ fieldValid ]);
+    }, [ fieldValid, fieldErrors ]);
 
     useEffect(() => {
         setupExports({
@@ -50,19 +49,14 @@ function Page({ cspNonce, props } : PageProps) : mixed {
 
         xport({
             submit: () => {
-                return submitCardFields({
-                    createOrder,
-                    onApprove,
-                    intent,
-                    branded,
-                    vault
-                });
+                return submitCardFields({ facilitatorAccessToken });
             }
         });
-    }, [ getFieldValue ]);
+    }, [ fieldValid, fieldValue ]);
 
-    const onFieldChange = ({ value, valid }) => {
-        setFieldValue(value);
+    const onFieldChange = ({ value, valid, errors }) => {
+        setFieldValue({ ...value });
+        setFieldErrors([ ...errors ]);
         setFieldValid(valid);
     };
 
@@ -77,7 +71,7 @@ function Page({ cspNonce, props } : PageProps) : mixed {
                     html, body {
                         margin: 0;
                         padding: 0;
-                        height: ${ style?.height ?? 30 }px;
+                        height: 100%;
                     }
 
                     body {
@@ -98,6 +92,8 @@ function Page({ cspNonce, props } : PageProps) : mixed {
                     ? <CardField
                         cspNonce={ cspNonce }
                         onChange={ onFieldChange }
+                        styleObject={ style }
+                        placeholder={ placeholder }
                     /> : null
             }
 
@@ -106,6 +102,8 @@ function Page({ cspNonce, props } : PageProps) : mixed {
                     ? <CardNumberField
                         cspNonce={ cspNonce }
                         onChange={ onFieldChange }
+                        styleObject={ style }
+                        placeholder={ placeholder }
                     /> : null
             }
 
@@ -114,6 +112,8 @@ function Page({ cspNonce, props } : PageProps) : mixed {
                     ? <CardCVVField
                         cspNonce={ cspNonce }
                         onChange={ onFieldChange }
+                        styleObject={ style }
+                        placeholder={ placeholder }
                     /> : null
             }
 
@@ -122,6 +122,8 @@ function Page({ cspNonce, props } : PageProps) : mixed {
                     ? <CardExpiryField
                         cspNonce={ cspNonce }
                         onChange={ onFieldChange }
+                        styleObject={ style }
+                        placeholder={ placeholder }
                     /> : null
             }
         </Fragment>

@@ -138,7 +138,8 @@ export function captureOrder(orderID : string, { facilitatorAccessToken, buyerAc
             url:         `${ ORDERS_API_URL }/${ orderID }/capture`,
             headers:     {
                 [ HEADERS.PARTNER_ATTRIBUTION_ID ]: partnerAttributionID || '',
-                [ HEADERS.PREFER ]:                 PREFER.REPRESENTATION
+                [ HEADERS.PREFER ]:                 PREFER.REPRESENTATION,
+                [ HEADERS.PAYPAL_REQUEST_ID ]:      orderID
             }
         }).catch(err => {
             const restCorrID = getErrorResponseCorrelationID(err);
@@ -849,7 +850,7 @@ type TokenizeCardResult = {|
 export function tokenizeCard({ card } : TokenizeCardOptions) : ZalgoPromise<TokenizeCardResult> {
     return ZalgoPromise.try(() => {
         // eslint-disable-next-line no-console
-        console.warn('Card Tokenize GQL mutation not yet implemented', { card });
+        console.info('Card Tokenize GQL mutation not yet implemented', { card });
         return {
             paymentMethodToken: uniqueID()
         };
@@ -860,16 +861,39 @@ type ApproveCardPaymentOptions = {|
     orderID : string,
     vault : boolean,
     branded : boolean,
+    clientID : string,
     card : {|
-        number : string,
+        cardNumber : string,
+        expirationDate : string,
         cvv : string,
-        expiry : string
+        postalCode : string
     |}
 |};
 
-export function approveCardPayment({ card, orderID, vault, branded } : ApproveCardPaymentOptions) : ZalgoPromise<void> {
-    return ZalgoPromise.try(() => {
-        // eslint-disable-next-line no-console
-        console.warn('Card Approve Payment GQL mutation not yet implemented', { card, orderID, vault, branded });
+export function approveCardPayment({ card, orderID, clientID } : ApproveCardPaymentOptions) : ZalgoPromise<void> {
+    return callGraphQL({
+        name:    'ProcessPayment',
+        query: `
+            mutation ProcessPayment(
+                $orderID: String!
+                $clientID: String!
+                $card: CardInput!
+                $branded: Boolean!
+            ) {
+                processPayment(
+                    clientID: $clientID
+                    paymentMethod: { type: CREDIT_CARD, card: $card }
+                    branded: $branded
+                    token: $orderID
+                    buttonSessionID: "f7r7367r4"
+                )
+            }
+        `,
+        variables: { orderID, clientID, card, branded: true }
+    }).then((gqlResult) => {
+        if (!gqlResult) {
+            throw new Error('Error on GraphQL ProcessPayment mutation');
+        }
+        return gqlResult;
     });
 }
