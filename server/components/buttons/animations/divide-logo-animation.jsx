@@ -92,7 +92,7 @@ function animationConfiguration () : ButtonSizes {
     };
 }
 
-export function createDivideLogoAnimation() : Function {
+export function createAnimation() : Function {
     return (params, cssClasses) : void => {
         const { logoTranslateXPosition, initialTranslateXTextPosition, textYposition, finalTranslateXTextPosition, paypalLabelContainerElement } = params;
         const { ANIMATION_LABEL_CONTAINER, ANIMATION_CONTAINER, DOM_READY, PAYPAL_LOGO } = cssClasses;
@@ -134,7 +134,7 @@ export function createDivideLogoAnimation() : Function {
 
 export function setupDivideLogoAnimation (animationLabelText : string) : ButtonAnimationOutputParams {
     let animationScript = '';
-    const animationFn = createDivideLogoAnimation();
+    const animationFn = createAnimation();
     const animationConfig = animationConfiguration();
     animationScript = `
         const elementPositionsForAnimation = ${ getPositionsOfElementsForAnimation.toString() }( document, ${ JSON.stringify(animationConfig) })
