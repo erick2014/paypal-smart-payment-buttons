@@ -9,6 +9,7 @@ import { LOGO_COLOR, PPLogo, PayPalLogo } from '@paypal/sdk-logos';
 import { PERSONALIZATION_TIMEOUT } from '../config';
 import { placeholderToJSX, type GraphQLBatchCall } from '../lib';
 import type { ExpressRequest, LocaleType, LoggerType } from '../types';
+import { getButtonAnimation } from './animations';
 
 type PersonalizationComponentProps = {|
    logoColor : $Values<typeof LOGO_COLOR>,
@@ -31,6 +32,11 @@ type Personalization = {|
             impression : string,
             click : string
         |}
+    |},
+    buttonAnimation? : {|
+        animationContainerClass : string,
+        animationScript : string,
+        animationComponent : ?ComponentFunctionType<PersonalizationComponentProps>
     |}
 |};
 
@@ -137,8 +143,11 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
     let { logger, clientID, locale, buyerCountry, buttonSessionID, currency, intent, commit,
         vault, label, period, tagline, personalizationEnabled, renderedButtons } = personalizationOptions;
     
+    const buttonAnimation = getButtonAnimation({  id: '1', text: 'Pay now or pay later' });
     if (!personalizationEnabled) {
-        return getDefaultPersonalization();
+        const personalization = getDefaultPersonalization();
+        personalization.buttonAnimation = buttonAnimation;
+        return personalization;
     }
 
     const ip = req.ip;
@@ -147,7 +156,7 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
 
     intent = intent ? intent.toUpperCase() : intent;
     label = label ? label.toUpperCase() : label;
-
+    
     const taglineEnabled = tagline === true || tagline === 'true';
     try {
         const result = await gqlBatch({
@@ -169,10 +178,14 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
             personalization.buttonText.Component = contentToJSX(personalization.buttonText.text);
         }
 
+        personalization.buttonAnimation = buttonAnimation;
+
         return personalization;
 
     } catch (err) {
         logger.error(req, 'personalization_error_fallback', { err: err.stack ? err.stack : err.toString() });
-        return getDefaultPersonalization();
+        const personalization = getDefaultPersonalization();
+        personalization.buttonAnimation = buttonAnimation;
+        return personalization;
     }
 }
