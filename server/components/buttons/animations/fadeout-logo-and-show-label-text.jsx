@@ -91,22 +91,19 @@ export function createAnimation() : Function {
         const { ANIMATION_LABEL_ELEMENT, ANIMATION_CONTAINER, PAYPAL_LOGO } = cssClasses;
         const animations = `
             .${ ANIMATION_CONTAINER }:hover img.${ PAYPAL_LOGO } {
-                animation: move-logo-to-left 3s linear both;
+                animation: move-logo-to-left 0.3s linear both;
             }
             
             .${ ANIMATION_CONTAINER }:hover .${ ANIMATION_LABEL_ELEMENT } {
-                animation: fadein-label-text 1s linear both;
+                animation: fadein-label-text 2s linear both;
             }
 
             @keyframes move-logo-to-left {
-                0% {
-                    transform: translateX(-${ logoTranslateXPosition }px);
-                }
-                10%{
-                    opacity: 0;
-                }
                 100%{
                     opacity: 0;
+                    visibility: hidden;
+                    opacity:0;
+                    transition: visibility 0s 0, opacity 0.1s linear;
                     transform: translateX(-${ logoTranslateXPosition }px);
                 }
             }
