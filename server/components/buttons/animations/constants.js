@@ -1,10 +1,10 @@
 /* @flow */
-import { ButtonStyleMap } from './types'
+import { ButtonStyleMap } from './types';
 
 export const CLASS = {
-    CONTAINER:    ('paypal-button-container' : 'paypal-button-container'),
-    BUTTON_LABEL: ('paypal-button-label-container' : 'paypal-button-label-container'),
-    DOM_READY: ('dom-ready' : 'dom-ready')
+    CONTAINER:      ('paypal-button-container' : 'paypal-button-container'),
+    BUTTON_LABEL:   ('paypal-button-label-container' : 'paypal-button-label-container'),
+    DOM_READY:      ('dom-ready' : 'dom-ready')
 };
 
 export const BUTTON_SIZE = {

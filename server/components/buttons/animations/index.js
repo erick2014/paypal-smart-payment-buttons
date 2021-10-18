@@ -1,6 +1,6 @@
 /* @flow */
 
-import { setupDivideLogoAnimation } from './divide-logo-animation';
+import { setupFadeOutLogoAndShowLabelText } from './fadeout-logo-and-show-label-text';
 import type { ButtonAnimationOutputParams, ButtonAnimationEmptyOutput } from './types';
 
 
@@ -13,8 +13,8 @@ export function getButtonAnimation(buttonAnimation) : ButtonAnimationOutputParam
         animationComponent:      null
     };
 
-    if (animationId && animationId === '1') {
-        configuration =  setupDivideLogoAnimation(animationLabelText);
+    if (animationId && animationId === 'run-fadeout-logo-and-show-label-text') {
+        configuration =  setupFadeOutLogoAndShowLabelText(animationLabelText);
     }
 
     return configuration;

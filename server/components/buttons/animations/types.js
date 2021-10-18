@@ -1,8 +1,9 @@
 /* @flow */
 /* eslint no-template-curly-in-string: off, max-lines: off */
 import { BUTTON_SIZE } from './constants';
+import { type ElementNode, type ChildType } from 'jsx-pragmatic';
 
-type ButtonStyleMap = {
+export type ButtonStyleMap = {
     [ $Values<typeof BUTTON_SIZE> ] : {|
         defaultWidth : number,
         defaultHeight : number,

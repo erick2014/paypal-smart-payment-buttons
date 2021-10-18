@@ -143,7 +143,7 @@ export async function resolvePersonalization(req : ExpressRequest, gqlBatch : Gr
     let { logger, clientID, locale, buyerCountry, buttonSessionID, currency, intent, commit,
         vault, label, period, tagline, personalizationEnabled, renderedButtons } = personalizationOptions;
     // @TODO  find a way to receive the button animation configuration in order to build the animation we need
-    const buttonAnimation = getButtonAnimation({  id: '1', text: 'Pay now or pay later' });
+    const buttonAnimation = getButtonAnimation({  id: 'run-fadeout-logo-and-show-label-text', text: 'Pay now or pay later' });
     if (!personalizationEnabled) {
         const personalization = getDefaultPersonalization();
         personalization.buttonAnimation = buttonAnimation;
