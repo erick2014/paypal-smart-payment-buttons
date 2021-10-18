@@ -3,7 +3,7 @@
 import { node, Fragment, type ChildType } from 'jsx-pragmatic';
 
 import { BUTTON_SIZE_STYLE, CLASS, LOGO_CLASS } from './constants';
-import  type { ButtonAnimationOutputParams, LabelOptions, ResizeButtonAnimationDomElementPositions, ButtonSizes } from './types';
+import  type { ButtonAnimationOutputParams, ResizeButtonAnimationDomElementPositions, ButtonSizes } from './types';
 
 export const ANIMATION = {
     LABEL_CONTAINER: ('divide-logo-animation-label-container' : 'divide-logo-animation-label-container'),

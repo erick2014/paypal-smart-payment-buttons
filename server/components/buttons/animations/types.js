@@ -1,8 +1,12 @@
 /* @flow */
 /* eslint no-template-curly-in-string: off, max-lines: off */
+import { type ChildType, type ElementNode } from 'jsx-pragmatic';
+
+// eslint-disable-next-line import/no-cycle
 import { BUTTON_SIZE } from './constants';
 
-type ButtonStyleMap = {
+
+export type ButtonStyleMap = {
     [ $Values<typeof BUTTON_SIZE> ] : {|
         defaultWidth : number,
         defaultHeight : number,
